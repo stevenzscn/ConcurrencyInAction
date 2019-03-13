@@ -1,25 +1,17 @@
 #include <iostream>
-#include <unistd.h>
+#include <chrono>
 #include "thread_pool.h"
 
 void sayHello() {
-    std::cout << "hello.\n";
+    std::cout << "hello. " << std::this_thread::get_id() << std::endl;
 }
 
 int main() {
     thread_pool tp;
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
-    tp.submit(sayHello);
+    for (unsigned i = 0; i < 100; ++i)
+        tp.submit(sayHello);
 
-    sleep(1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     return 0;
 }
